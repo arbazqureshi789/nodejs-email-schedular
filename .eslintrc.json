@@ -1,0 +1,27 @@
+{
+    "env": {
+      "node": true
+    },
+    "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+      "quotes": [
+        "error",
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ],
+      "sort-keys": "off",
+      "no-console": "off",
+      "no-new": "error",
+      "no-unused-expressions": "error",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "sort-imports": "off",
+      "no-return-await": "error"
+    }
+  }
+  
