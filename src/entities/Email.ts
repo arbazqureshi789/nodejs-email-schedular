@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import { v4 as uuid } from 'uuid';
 
-@Entity({ name: 'email' })
+@Entity()
 export class Email {
     @PrimaryGeneratedColumn('uuid')
     id: string;

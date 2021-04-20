@@ -1,4 +1,6 @@
 import { getRepository } from 'typeorm';
+import { registerEmail } from '../services/register-email';
+import { getRegisteredEmail } from '../services/get-registered-email';
 
 type RegisteredEmail = {
     id: string;
@@ -7,17 +9,14 @@ type RegisteredEmail = {
 
 export const queryResolver = {
     async registerEmail({ email }: { email: string }): Promise<RegisteredEmail> {
+        const registeredEmail = await registerEmail(email);
         return {
-            id: '12345600',
-            email: 'arbazqureshi@gmail.com',
+            id: registeredEmail.id,
+            email: registeredEmail.email,
         };
     },
-    async allRegisteredEmail(): Promise<[RegisteredEmail]> {
-        return [
-            {
-                id: '12345600',
-                email: 'arbazqureshi@gmail.com',
-            },
-        ];
+    async allRegisteredEmail(): Promise<RegisteredEmail[]> {
+        const allRegisteredEmail = await getRegisteredEmail();
+        return allRegisteredEmail;
     },
 };
