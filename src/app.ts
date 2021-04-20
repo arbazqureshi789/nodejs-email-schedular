@@ -5,10 +5,12 @@ import { Server } from 'node:http';
 import { graphqlHTTP } from 'express-graphql';
 import { queryResolver } from './graphQl/resolver';
 import { querySchema } from './graphQl/schema';
+import { connectDB, disconnectDB } from './database/typeorm';
 
 let server: Server;
 
 async function start() {
+    await connectDB();
     const app = express();
     server = app.listen(Number.parseInt(process.env.PORT || '5000'), () =>
         console.log(`Server listening on port:${process.env.PORT}`)
@@ -29,6 +31,7 @@ async function start() {
 }
 
 async function stop() {
+    await disconnectDB();
     console.log('Stopping server.');
     server?.close((err) => {
         if (err) {
