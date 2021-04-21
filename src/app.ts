@@ -1,11 +1,10 @@
-import express, { request, response } from 'express';
+import 'reflect-metadata';
+import express from 'express';
 import { config } from 'dotenv';
 config();
 import { Server } from 'node:http';
-import { graphqlHTTP } from 'express-graphql';
-import { queryResolver } from './graphQl/resolver';
-import { querySchema } from './graphQl/schema';
 import { connectDB, disconnectDB } from './database/typeorm';
+import { graphqlController } from './controllers/graphQlController';
 
 let server: Server;
 
@@ -16,18 +15,7 @@ async function start() {
         console.log(`Server listening on port:${process.env.PORT}`)
     );
 
-    app.use(
-        '/graphql',
-        graphqlHTTP({
-            schema: querySchema,
-            rootValue: queryResolver,
-            graphiql: true,
-            context: {
-                req: request,
-                res: response,
-            },
-        })
-    );
+    app.use('/graphql', graphqlController);
 }
 
 async function stop() {
