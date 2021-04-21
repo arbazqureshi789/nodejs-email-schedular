@@ -9,14 +9,22 @@ type RegisteredEmail = {
 
 export const queryResolver = {
     async registerEmail({ email }: { email: string }): Promise<RegisteredEmail> {
-        const registeredEmail = await registerEmail(email);
-        return {
-            id: registeredEmail.id,
-            email: registeredEmail.email,
-        };
+        try {
+            const registeredEmail = await registerEmail(email);
+            return {
+                id: registeredEmail.id,
+                email: registeredEmail.email,
+            };
+        } catch (error) {
+            console.log(error);
+        }
     },
     async allRegisteredEmail(): Promise<RegisteredEmail[]> {
-        const allRegisteredEmail = await getRegisteredEmail();
-        return allRegisteredEmail;
+        try {
+            const allRegisteredEmail = await getRegisteredEmail();
+            return allRegisteredEmail;
+        } catch (error) {
+            console.log(error);
+        }
     },
 };

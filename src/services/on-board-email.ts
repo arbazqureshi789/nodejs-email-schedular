@@ -10,22 +10,26 @@ class OnBoardMail {
     private mailTransporter: Mail | undefined;
     private job: Job | undefined;
     public async init() {
-        await this.initializeMailTransport();
+        try {
+            await this.initializeMailTransport();
 
-        //fetch emails to unsend email address
-        const emails = await getRepository(Email).find({ where: { isEmailSend: false } });
-        console.log(emails);
-        if (emails.length > 0) {
-            this.emailQueue = emails.map((e) => e.email);
+            //fetch emails to unsend email address
+            const emails = await getRepository(Email).find({ where: { isEmailSend: false } });
+            console.log(emails);
+            if (emails.length > 0) {
+                this.emailQueue = emails.map((e) => e.email);
+            }
+
+            this.job = schedule.scheduleJob(
+                'Send onboarding mail',
+                {
+                    second: 10,
+                },
+                () => this.sendOnboardingMail()
+            );
+        } catch (error) {
+            console.log(error);
         }
-
-        this.job = schedule.scheduleJob(
-            'Send onboarding mail',
-            {
-                second: 10,
-            },
-            () => this.sendOnboardingMail()
-        );
     }
 
     public stop() {

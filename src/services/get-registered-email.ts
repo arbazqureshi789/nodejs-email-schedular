@@ -2,6 +2,10 @@ import { getRepository } from 'typeorm';
 import { Email } from '../entities/Email';
 
 export async function getRegisteredEmail(): Promise<Email[]> {
-    const registeredEmails = await getRepository(Email).find();
-    return registeredEmails;
+    try {
+        const registeredEmails = await getRepository(Email).find();
+        return registeredEmails;
+    } catch (error) {
+        console.log(error);
+    }
 }
